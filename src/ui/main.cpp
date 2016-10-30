@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
     NoteSourceHolder noteSource("input_win32.dll");
 
     QMessageBox mb;
-    mb.setText(noteSource.GetInstance()->GetName());
+    mb.setText(noteSource->GetName());
     mb.show();
 
     MainWindow w;

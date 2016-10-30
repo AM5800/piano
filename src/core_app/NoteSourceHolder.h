@@ -15,6 +15,14 @@ struct NoteSourceHolder
         return myInstance;
     }
 
+    operator INoteSource*() const {
+        return GetInstance();
+    }
+
+    INoteSource* operator ->() const {
+        return GetInstance();
+    }
+
 private:
 
     typedef INoteSource*(*CreateFunction)();
