@@ -5,8 +5,12 @@ TEMPLATE = lib
 CONFIG += staticlib
 
 SOURCES += \
-    NoteSourceHolder.cpp
+    NoteSourceHolder.cpp \
+    CompositionsLoader.cpp \
+    CompositionsFinder.cpp
 
 HEADERS += \
-    NoteSourceHolder.h
+    NoteSourceHolder.h \
+    CompositionsLoader.h \
+    CompositionsFinder.h
 

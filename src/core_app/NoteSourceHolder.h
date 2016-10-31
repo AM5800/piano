@@ -6,30 +6,35 @@
 
 struct NoteSourceHolder
 {
-    NoteSourceHolder(QString const & libPath);
-    ~NoteSourceHolder() {
-        if (myFreeFunction) myFreeFunction(myInstance);
-    }
+	NoteSourceHolder(QString const& libPath);
 
-    INoteSource* GetInstance() const {
-        return myInstance;
-    }
+	~NoteSourceHolder()
+	{
+		if (myFreeFunction) myFreeFunction(myInstance);
+	}
 
-    operator INoteSource*() const {
-        return GetInstance();
-    }
+	INoteSource* GetInstance() const
+	{
+		return myInstance;
+	}
 
-    INoteSource* operator ->() const {
-        return GetInstance();
-    }
+	operator INoteSource*() const
+	{
+		return GetInstance();
+	}
+
+	INoteSource* operator ->() const
+	{
+		return GetInstance();
+	}
 
 private:
 
-    typedef INoteSource*(*CreateFunction)();
-    typedef void(*FreeFunction)(INoteSource*);
+	typedef INoteSource*(*CreateFunction)();
+	typedef void (*FreeFunction)(INoteSource*);
 
-    FreeFunction myFreeFunction;
-    INoteSource* myInstance;
+	FreeFunction myFreeFunction;
+	INoteSource* myInstance;
 };
 
 #endif // NOTESOURCEFACTORYHELPER_H

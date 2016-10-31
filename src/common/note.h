@@ -2,17 +2,21 @@
 #define NOTE_H
 
 enum NoteTag {
-    C, D, E, F, G, A, B
+    Pause,
+		C, D, E, F, G, A, B,
+    Cs, Ds, Es, Fs, Gs, As, Bs
 };
 
 enum NoteDuration {
-    WHOLE, HALF, QUARTER // TODO
+    WHOLE, HALF, QUARTER, EIGHT, SIXTEEN // TODO
 };
 
 struct Note {
     NoteTag const Tag;
     int const Octave;
     NoteDuration const Duration;
+
+    Note(NoteTag tag, int octave, NoteDuration duration) : Tag(tag), Octave(octave), Duration(duration) {}
 };
 
 #endif // NOTE_H
