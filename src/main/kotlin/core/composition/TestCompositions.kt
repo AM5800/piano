@@ -28,3 +28,22 @@ fun forEliseExcerpt(): Composition {
     }
 }
 
+fun cMajorScale(): Composition {
+    return Composition.build("C major scale") {
+        tonality(Tonality.C)
+        timeSignature(Rational.valueOf(4, 4))
+        bar {
+            note(Note.C, 0, Rational.valueOf(1, 4))
+            note(Note.D, 0, Rational.valueOf(1, 4))
+            note(Note.E, 0, Rational.valueOf(1, 4))
+            note(Note.F, 0, Rational.valueOf(1, 4))
+        }
+        bar {
+            note(Note.G, 0, Rational.valueOf(1, 4))
+            note(Note.A, 0, Rational.valueOf(1, 4))
+            note(Note.B, 0, Rational.valueOf(1, 4))
+            pause(Rational.valueOf(1, 4))
+        }
+    }
+}
+
