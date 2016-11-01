@@ -1,10 +1,15 @@
 package desktop.recorder
 
+import com.google.common.primitives.Longs
 import core.notion.AlteratedNote
 import core.notion.Alteration
 import core.notion.Note
 import core.notion.SpnNote
+import java.io.BufferedOutputStream
 import java.io.Closeable
+import java.io.File
+import java.io.FileOutputStream
+import java.nio.file.Files
 import javax.sound.midi.MidiMessage
 import javax.sound.midi.MidiSystem
 
@@ -60,7 +65,15 @@ class MidiReader : Closeable {
 }
 
 class MyReceiver : javax.sound.midi.Receiver {
+
+    val stream = BufferedOutputStream(FileOutputStream(File("for_elise.dat")))
+
     override fun send(message: MidiMessage, timeStamp: Long) {
+        stream.write(message.message.size)
+        stream.write(message.message)
+        stream.write(Longs.toByteArray(timeStamp))
+        stream.flush()
+
         if (message.message.size != 3) {
             if (message.message[0].toInt() == -112) {
                 val note = getSpnNoteFromMidiCode(message.message[1])
@@ -68,12 +81,6 @@ class MyReceiver : javax.sound.midi.Receiver {
                 return
             }
         }
-
-        for (byte in message.message) {
-            print(byte)
-            print(" ")
-        }
-        println()
     }
 
 
