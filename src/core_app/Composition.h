@@ -1,10 +1,10 @@
 ﻿#pragma once
 
 #include <vector>
-#include <QString>
 #include "../common/note.h"
 #include "../common/Rational.h"
 #include <numeric>
+#include <string>
 
 enum class NoteModifier
 {
@@ -47,11 +47,11 @@ enum class TonalityEnum
 
 struct Composition
 {
-	QString const Title;
+	std::wstring const Title;
 	Rational const TimeSignature;
 	TonalityEnum const Tonality;
 
-	Composition(QString const& title, Rational const& timeSignature, TonalityEnum tonality, std::vector<Bar> const& bars)
+	Composition(std::wstring const& title, Rational const& timeSignature, TonalityEnum tonality, std::vector<Bar> const& bars)
 		: Title(title),
 		  TimeSignature(timeSignature),
 		  Tonality(tonality),
@@ -70,11 +70,11 @@ inline NoteModifier operator|(NoteModifier a, NoteModifier b)
 
 struct CompositionBuilder
 {
-	QString const Title;
+	std::wstring const Title;
 	Rational const TimeSignature;
 	TonalityEnum const Tonality;
 
-	CompositionBuilder(QString const& title, Rational const& timeSignature, TonalityEnum tonality)
+	CompositionBuilder(std::wstring const& title, Rational const& timeSignature, TonalityEnum tonality)
 		: Title(title),
 		  TimeSignature(timeSignature),
 		  Tonality(tonality)
@@ -119,7 +119,7 @@ private:
 			                                     return note.Duration + accumulator;
 		                                     });
 
-		if (totalDuration != 1) throw std::exception(("Total duration: " + to_string(totalDuration)).c_str());
+		if (totalDuration != TimeSignature) throw std::exception(("Total duration: " + to_string(totalDuration)).c_str());
 
 		myBars.push_back(Bar(myCurrentBar));
 		myCurrentBar.clear();
