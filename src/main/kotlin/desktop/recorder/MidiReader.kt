@@ -72,7 +72,7 @@ class MyReceiver : javax.sound.midi.Receiver {
     }
 
     override fun send(message: MidiMessage, timeStamp: Long) {
-        if (message.message.size != 3) {
+        if (message.message.size >= 3) {
             if (message.message[0].toInt() == -112) {
                 val note = getSpnNoteFromMidiCode(message.message[1])
                 lastNotes.add(AlteratedNote(note.note, note.alteration))
