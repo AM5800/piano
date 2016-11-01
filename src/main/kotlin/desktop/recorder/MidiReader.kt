@@ -1,15 +1,13 @@
 package desktop.recorder
 
-import com.google.common.primitives.Longs
+import core.SimpleSuffixTreeCompositionsIndex
+import core.composition.cMajorScale
+import core.composition.forEliseExcerpt
 import core.notion.AlteratedNote
 import core.notion.Alteration
 import core.notion.Note
 import core.notion.SpnNote
-import java.io.BufferedOutputStream
 import java.io.Closeable
-import java.io.File
-import java.io.FileOutputStream
-import java.nio.file.Files
 import javax.sound.midi.MidiMessage
 import javax.sound.midi.MidiSystem
 
@@ -65,19 +63,26 @@ class MidiReader : Closeable {
 }
 
 class MyReceiver : javax.sound.midi.Receiver {
+    val index = SimpleSuffixTreeCompositionsIndex()
+    val lastNotes = mutableListOf<AlteratedNote>()
 
-    val stream = BufferedOutputStream(FileOutputStream(File("for_elise.dat")))
+    init {
+        index.add(forEliseExcerpt())
+        index.add(cMajorScale())
+    }
 
     override fun send(message: MidiMessage, timeStamp: Long) {
-        stream.write(message.message.size)
-        stream.write(message.message)
-        stream.write(Longs.toByteArray(timeStamp))
-        stream.flush()
-
         if (message.message.size != 3) {
             if (message.message[0].toInt() == -112) {
                 val note = getSpnNoteFromMidiCode(message.message[1])
+                lastNotes.add(AlteratedNote(note.note, note.alteration))
                 println("$note ${message.message[2]}")
+
+                val findResult = index.find(lastNotes, 2)
+                if (findResult.size == 1) {
+                    println("Composition detected: " + findResult.single().title)
+                }
+
                 return
             }
         }
