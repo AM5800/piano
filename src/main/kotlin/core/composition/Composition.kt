@@ -1,6 +1,6 @@
 package core.composition
 
-import core.notion.AlteratedNote
+import core.notion.Note
 
 class Composition(val title: String, val bars: List<Bar>) {
     companion object {
@@ -11,8 +11,8 @@ class Composition(val title: String, val bars: List<Bar>) {
         }
     }
 
-    fun getAlteratedNotes(): List<AlteratedNote> {
-        return bars.flatMap(Bar::getAlteratedNotes)
+    fun getNotes(): List<Note> {
+        return bars.flatMap(Bar::getNotes)
     }
 }
 

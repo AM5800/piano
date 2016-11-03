@@ -1,4 +1,4 @@
-import desktop.recorder.getSpnNoteFromMidiCode
+import desktop.midi.getSpnNoteFromMidiCode
 import org.junit.Assert
 import org.junit.Test
 

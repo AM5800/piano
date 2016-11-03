@@ -1,14 +1,14 @@
 package core
 
 import core.composition.Composition
-import core.notion.AlteratedNote
+import core.notion.Note
 
 class SimpleSuffixTreeCompositionsIndex : CompositionsIndex {
     private class Node {
-        val children = mutableMapOf<AlteratedNote, Node>()
+        val children = mutableMapOf<Note, Node>()
         val payload = mutableSetOf<Composition>()
 
-        fun getChild(note: AlteratedNote): Node {
+        fun getChild(note: Note): Node {
             val child = children[note]
             if (child == null) {
                 val newChild = Node()
@@ -17,7 +17,7 @@ class SimpleSuffixTreeCompositionsIndex : CompositionsIndex {
             } else return child
         }
 
-        fun findNode(note: AlteratedNote): Node? {
+        fun findNode(note: Note): Node? {
             return children[note]
         }
     }
@@ -25,7 +25,7 @@ class SimpleSuffixTreeCompositionsIndex : CompositionsIndex {
     private val root = Node()
 
     override fun add(composition: Composition) {
-        var notes = composition.getAlteratedNotes()
+        var notes = composition.getNotes()
         notes = notes.reversed()
         while (notes.isNotEmpty()) {
             add(notes, composition)
@@ -33,7 +33,7 @@ class SimpleSuffixTreeCompositionsIndex : CompositionsIndex {
         }
     }
 
-    private fun add(notes: List<AlteratedNote>, composition: Composition) {
+    private fun add(notes: List<Note>, composition: Composition) {
         var node = root
         for (note in notes) {
             val child = node.getChild(note)
@@ -42,7 +42,7 @@ class SimpleSuffixTreeCompositionsIndex : CompositionsIndex {
         }
     }
 
-    override fun find(notes: List<AlteratedNote>, minMatchedSymbols: Int): List<Composition> {
+    override fun find(notes: List<Note>, minMatchedSymbols: Int): List<Composition> {
         val reversed = notes.reversed()
         var node = root
 
